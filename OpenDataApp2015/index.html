@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Immosearcher</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="main.js"></script>
+    <script src="RadarChart.js"></script>
+    <script src="adresse1.js"></script>
+    <script src="Referenzadresse.js"></script>
+    <script src="Haltestelle.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+    <script type="text/javascript" src="wz_tooltip.js"></script>
+    <h1><span id="Immo">Immo</span><span id="searcher">Searcher</span></h1>
+        <span id="titel"> - Umgebungsdaten zu Ihrer Immoblie</span>
+   
+    <h3>Gibt es gut erschlossene Immobilien ohne Lärm? zum Wohnen? für die Ferien?<a class="hilfe" onmouseover="Tip('Sie möchten eine Immoblie mieten oder kaufen und möchten bereits im Voraus eine Selektion der Umgebung machen; so dass Sie nur noch in Regionen nach potentiellen Objekten suchen, die Ihren Kriterien entsprechen? Oder haben Sie Lust nach Ferien an einem Ort, an den Sie schnell anreisen und dennoch Ruhe geniessen können? Mit dem ImmoSearcher lassen sich rasch umgebungsrelevante Informationen zusammenstellen. Sie werden unabhängig von Informationen der Vermieter, Eigentümer und Verkäufer; sofern bis anhin überhaupt Informationen mit angemessenem Aufwand verfügbar waren.')" onmouseout="UnTip()">&nbsp;(?)</a></h3>
+    <h3>Geben Sie Ihre Adresse ein.<a class="hilfe" onmouseover="Tip('Damit die Sie objektive Umgebungsdaten erhalten für Immobilien, müssen Sie in den Suchfeldern die zu untersuchenden Immoblienadressen eingeben.')" onmouseout="UnTip()">&nbsp;(?)</a>&nbsp;Und vergleichen Sie mit einer Referenzadresse.<a class="hilfe" onmouseover="Tip('Masseinheiten von Geodaten, wie zum Beispiel Dezibel, sind für Laien oft schwierig zu interpretieren. Dafür ermöglicht ImmoSearcher zusätzlich zu ihrer zu untersuchenden Immoblie eine Referenzimmobilie zu visualisieren. Die Referenzimmoblie sollte über Ihnen bekannte Eigenschaften verfügen, um so als Vergleichsobjekt zu dienen.')" onmouseout="UnTip()">&nbsp;(?)</a></h3>
+    
+    <div class="sidebar">
+    
+        <p> Erschliessung der Immobilie mit Auto/ ÖV: <a class="hilfe" onmouseover="Tip('Wenn Sie die Adresse einer zu untersuchenden Immoblie eingeben, wird in einem Spiderdiagramm die Erschliessung der Immobilie mit den ÖV und dem Auto visualisiert. Geben sie im Suchfeld Adresse 1: <img src=suchfeldAdresse1.png width=30% height=30%> die Immobilienadresse ein und drücken Sie anschliessend <img src=BerechneErschliessung.png width=100 height=15>. Danach dasselbe Vorgehen für eine Vergleichsimmobilie (beispielsweise Ihre jetzige Wohnadresse oder die Adresse eines Ihnen bekannten Ortes): Geben Sie die Referenzadresse ein <img src=suchfeldReferenzadresse.png width=30% height=30%> und drücken Sie anschliessend <img src=BerechneReferenzadresse.png width=100 height=15>.')" onmouseout="UnTip()"> (?)</a></p>
+        <div>
+            <label for="search">
+            Adresse 1 (Strasse Hausnr, Ort): <input id="search" type="text" size=30 value="Parkweg 1, Konolfingen">
+            </label>
+            <input id="submit" type="submit" value="Berechne Erschliessung">
+        </div>
+        <div>
+            <label for="searchReferenz">
+            Referenz &nbsp;(Strasse Hausnr, Ort): <input id="searchReferenz" type="text" size=30 value="Hühnerbühlstrasse 3, 3065 Bolligen">
+            </label>
+    <input id="submitReferenz" type="submit" value="Berechne Erschliessung"> <br/><a class="hilfe" onmouseover="Tip('Nachdem Sie die Berechnung der Erschliessung der Immobilien mittels <img src=BerechneReferenzadresse.png width=100 height=15> gestartet haben, erscheint das Spiderdiagramm. Die Achsen des Spiderdiagrammes stellen jeweils eine Dimension der Erschliessung dar. Als Kernstädte gelten Zürich, Genf, Basel, Lausanne, Bern oder Lugano. Die Abkürzung &quot;Agglom. Zentrum&quot; steht für das nächste Zentrum der Agglomeration. In den Klammern steht der jeweilige Maximalwert. Der Maximalwert entspricht nicht dem tatsächlichen Maximalwert der Grundgesamtheit, da sonst kaum Unterschiede in der Visualisierung im Spider festgestellt werden können aufgrund der Ausreisser. Die Werte wurden kalibriert, so dass 0 weiterhin 0% ist und die jeweiligen Klammerwerte ergeben 100%. Wichtig bei der Betrachtung des Spiders ist die Tatsache, dass die Berechnung der Erschliessung vom jeweiligen Gemeindezentrum in die nächste Kernstadt oder das nächste Agglomerationszentrum berechnet wurde. Die Achse &quot;Haus zu Haltestelle&quot; berechnet die Distanz direkt von der Immoblie aus. ')" onmouseout="UnTip()">(?)</a>
+        </div>
+
+        <div id="body">
+        <div id="chart"></div>
+        <script type="text/javascript" src="script.js"></script>
+        </div>
+    
+
+    <div id="messageHaltestelle"></div>
+    <div id="messageHaltestelleReferenz"></div>
+    <div id="results"></div>
+    <div id="resultsReferenz"></div>
+   
+        <p id="karte">
+        <p> Weitere Hinweise zur Erschliessung mit den öffentlichen Verkehrsmittel <br/> bieten die
+            ÖV-Güteklassen (Daten aus den elektronischen Fahrplänen): <br/>
+        <iframe src='https://map.geo.admin.ch/?X=181130.00&Y=602710.00&zoom=1&lang=de&topic=ech&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.are.gueteklassen_oev&layers_opacity=0.75'
+            width='600' height='450' frameborder='0' style='border:0'></iframe>
+            <img src="http://api3.geo.admin.ch/static/images/legends/ch.are.gueteklassen_oev_de.png" alt="Legende" >
+    </div>
+   <div class="content">
+    Strassenlärm bei Immobilie:<a class="hilfe" onmouseover="Tip('Die Angaben basieren auf flächendeckenden Modellberechnungen. Dafür wurden Daten zur Lärmbelastung von rund 72000 km Strassen verwendet und für die gesamte Schweiz gerechnet. Die 2014 aktualisierten Strassenverkehrslärmberechnung zeigt, dass am Tag jede fünfte und in der Nacht jede sechste Person von schädlichem oder lästigem Strassenverkehrslärm betroffen ist. Daten sind gesetzlich nicht verbindlich. Verbindliche Angaben zur Belastung wie auch zur Lärmsanierung geben die jeweiligen Vollzugsbehörden. Bei Nationalstrassen: Bundesamt für Strassen. Bei Haupt- und übrige Strassen: Die Kantonalen Vollzugsbehörden')" onmouseout="UnTip()">&nbsp;(?)</a> (nach Adresseingabe herauszoomen)<a class="hilfe" onmouseover="Tip('Nachdem Sie die Adresse eingegeben haben, zoomen Sie mit dem Minussymbol <img src=herauszoomen.png> wieder zurück um die Farben des Lärmpegels erkennen zu können.')" onmouseout="UnTip()">&nbsp;(?)</a>
+    
+       <iframe src='https://map.geo.admin.ch/?X=181130.00&Y=602710.00&zoom=1&lang=de&topic=ech&bgLayer=ch.swisstopo.pixelkarte-farbe&layers_opacity=0.75&layers=ch.bafu.laerm-strassenlaerm_tag' width='400' height='300' frameborder='0' style='border:0'></iframe>   
+
+       <img src="http://api3.geo.admin.ch/static/images/legends/ch.bafu.laerm-strassenlaerm_tag_de.png" width='400' height='300'>
+ 
+       <div id="eisenbahn">
+       <br/>Eisenbahnlärm:<a class="hilfe" onmouseover="Tip('Die Karte zeigt, welcher Lärmbelastung die Bevölkerung durch den Schienenverkehr ausgesetzt ist. Die Angaben basieren auf flächendeckenden Modellberechnungen. Dafür wurden Daten zur Lärmbelastung von rund 3000 km Schienen berücksichtigt und für die gesamte Schweiz gerechnet. Die Daten sind gesetzlich nicht verbindlich. Verbindliche Angaben zur Belastung wie auch zur Lärmsanierung gibt die Vollzugsbehörde des Bundes, das Bundesamt für Verkehr.')" onmouseout="UnTip()">&nbsp;(?)&nbsp;</a>(nach Adresseingabe herauszoomen)<a class="hilfe" onmouseover="Tip('Nachdem Sie die Adresse eingegeben haben, zoomen Sie mit dem Minussymbol <img src=herauszoomen.png> wieder zurück um die Farben des Lärmpegels erkennen zu können.')" onmouseout="UnTip()">&nbsp;(?)</a><br/> 
+       <iframe src='https://map.geo.admin.ch/?X=229382.45&Y=693809.62&zoom=2&lang=de&topic=ech&bgLayer=ch.swisstopo.pixelkarte-farbe&layers_opacity=0.75&layers=ch.bafu.laerm-bahnlaerm_tag' width='400' height='300' frameborder='0' style='border:0'></iframe>
+           </div>
+    </div>
+    
+    <footer>
+    <strong>Impressum</strong>
+
+    <p><strong>Kontaktperson:</strong> Gabriel Abu-Tayeh, <a href="mailto:gabriel.abutayeh@gmail.com">gabriel.abutayeh@gmail.com</a>
+    </p>
+        <p><strong>Kurbeschreibung:</strong>&nbsp;<a class="hilfe" onmouseover="Tip('Bei der Suche nach einer Liegenschaft müssen die potentiellen Mieter/Käufer Umgebungsdaten aufwändig zusammensuchen. Auch die Vergleichbarkeit mit Referenzobjekten kann nicht ohne weiteres hergestellt werden. Der ImmoSearcher fügt objektive Geodaten (zu Erschliessung und Lärm) zusammen und referenziert die Daten mit einem Vergleichsobjekt.')" onmouseout="UnTip()">(Mit Maus über diesen Text fahren)</a>
+</p>
+        <p><strong>Daten:</strong> <a href="https://api3.geo.admin.ch/services/sdiservices.html">Adressdaten mittels API</a>,
+        <a href="http://transport.opendata.ch/">Haltestellen mittels API </a> und <a
+        href="http://www.bav.admin.ch/dokumentation/publikationen/00475/01497/index.html?lang=de">als xlsx</a>, <a
+        href="http://www.are.admin.ch/themen/verkehr/00256/04271/index.html?lang=de">Reisezeiten als Shapefile</a>, <a
+        href="http://map.geo.admin.ch/?X=181130.00&Y=602710.00&zoom=1&lang=de&topic=ech&bgLayer=ch.swisstopo.pixelkarte-farbe&layers_opacity=0.75&layers=ch.are.gueteklassen_oev">ÖV-Güteklassen
+    als Karte</a></p>
+        <p><strong>Erfüllung der Daten Open Government Data Kriterien:</strong> <a class="hilfe" onmouseover="Tip('Diese Grafik zeigt, welche der zehn Open Government Data Kriterien die Datensätze erfüllen.<img src=kriterienOpenData.png height=40% weight=40%>')" onmouseout="UnTip()">(Mit Maus über diesen Text fahren)</a>
+    </p>
+    
+    <p><strong>Karten:</strong> <a href="http://map.geo.admin.ch/?X=190000.00&Y=660000.00&zoom=1&lang=de&topic=ech&bgLayer=ch.swisstopo.pixelkarte-farbe">map.geo.admin.ch</a></p>
+         <p><strong>Lizenz:</strong> <a class="hilfe" onmouseover="Tip('Die Applikation fällt unter die Lizenz CC-BY-SA. Damit sind Veränderungen des Quellcodes zulässig, solange die Software wieder unter den gleichen Bedingugen zur Verfügung gestellt wird. Der Autor sieht hier den grössten Nutzen. Der Autor profitiert von seiner Nennung (was seine intensive Arbeit in das Werk honoriert), gleichzeitig profitiert die Allgemeinheit davon, dass bei einer Weiterentwlicklung, die durchaus möglich ist im konkreten Fall, nicht bei null angefangen werden muss. Weitere Informationen zur Lizenz auf http://creativecommons.org')" onmouseout="UnTip()">CC-BY-SA (Mit Maus über diesen Text fahren),</a> <a href="http://creativecommons.org"> creativecommons.org</a></p>
+        <p><strong>Erkenntnisse:</strong>&nbsp; <a class="hilfe" onmouseover="Tip('In dieser App sind 2352 Gemeinden, 1.6 Mio Gebäude mit Wohnnutzung und 27429 Haltestellen hinterlegt. Diese extrem grosse Datenmenge lässt sich nur mit API verwalten - siehe Wikipedia Programmierschnittstelle -. Gemeindefusionen und Veränderungen im Haltestellennetz sind durch eine manuelle Ergänzung in Textdateien zu ungenau und zeitlich verzögert. Die Integration von Datendiensten ermöglichst eine inhaltliche Konsistenz der Daten und somit schlussendlich der Applikationen.')" onmouseout="UnTip()">Technische: (Mit Maus über diesen Text fahren)&nbsp;</a> <a class="hilfe" onmouseover="Tip(' Erschliessbarkeit und Lärm korrelieren. Erschliessbarkeit erklärt aber nicht auschliesslich das Vorkommen von Lärm. Viele städtische Gebiete, die gut erschlossen sind, verzeichnen weniger Lärmessionen als ländliche Regionen, welche an Strassen- und Bahnnetze angesiedelt sind. Eine genaue Überprüfung der Gegebenheit vor Ort ist wichtig, hier setzt der ImmoSearcher ein.')" onmouseout="UnTip()">Inhaltliche: (Mit Maus über diesen Text fahren)&nbsp;</a> <a class="hilfe" onmouseover="Tip(' Daten müssen zueinander in Bezug gesetzt werden um ein Gesamtbild der Umgebung darstellen zu können. Daten alleine bringen noch keine Information. Erst wenn für den Benutzer relevante Daten miteinander in Verbindung gebracht werden. Diese App visualisiert bewusst die Erschliessbarkeit, den Strassenlärm und den Eisenbahnlärm getrennt voneinander, so dass auf den/die BenutzerIn massgeschneiderte Information entstehen kann. Zusätzlich muss Lärm von der Erschliessung getrennt visualisiert werden, um für den jeweiligen Datensatz die geeignetste Visualisierungsart zu finden. Lärmdaten müssen im Kontext betrachtet werden können. Habe ich auf beiden Seiten des Hauses Lärm? Wo in dieser Region habe ich mehr, wo weniger Lärm? Dies kann am besten auf einer Karte visualisiert werden. Hingegen bei der Erschliessung eines Wohnortes sind Zahlen viel essentieller. Mit Minutenzahlen kann jede/r BenutzerIn etwas anfangen und somit wäre eine Übersetzung in eine Karte nicht sinnvoll. ')" onmouseout="UnTip()">Informationstheoretische: (Mit Maus über diesen Text fahren)&nbsp;</a> 
+</p>
+        <p><strong>Linked Data:</strong> <a class="hilfe" onmouseover="Tip('API zu Haltestellen:<img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%>, Reisezeiten: <img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%>, Haltestellen xlsx: <img src=linkedDataStar.png height=80% weight=80%><img src=linkedDataStar.png height=80% weight=80%>, Lärmdaten: <img src=linkedDataStar.png height=80% weight=80%>, Adressdaten-keine Sterne')" onmouseout="UnTip()">(Mit Maus über diesen Text fahren)&nbsp;</a><a href="http://de.wikipedia.org/wiki/Linked_Open_Data">Linked Open Data</a>
+    </p>
+</footer>
+</body>
+</html>
