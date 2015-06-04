@@ -1,0 +1,75 @@
+#submit {
+    background-color: #1f77b4;
+    color: white;
+}
+
+#submitReferenz {
+    background-color: #ff7f0e;
+    color: white;
+}
+
+footer {
+    background-color: lightgrey;
+    clear: both;
+    padding-top: 20px;
+    margin-top: 20px
+}
+
+
+body {
+    font-family: serif;   
+}
+
+div.sidebar {
+float: left;
+width: 780px;
+margin-right: 0px;
+    margin: 8px 12px 4px 0;
+    font-size: 20px;
+}
+
+div.content {
+float: left;
+width: 300px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+h1 {display: inline;}
+
+#titel {font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+ }
+
+
+
+#messageHaltestelle {
+    float: left;
+    clear: both;
+    background-color: #1f77b4;
+    margin: 5px;
+    padding: 5px;
+    border: 3px #eee;
+}
+
+#messageHaltestelleReferenz {
+    float: left;
+    clear: both;
+    background-color: #ff7f0e;
+    margin: 5px;
+    padding: 5px;
+    border: 3px #eee;
+}
+
+#karte {clear: both; margin-top: 10px; }
+
+#Immo {color: #1f77b4; }
+        #searcher {color: #ff7f0e; }
+
+#eisenbahn {margin-top: 5px; }
+
+.hilfe {font-size: 14px; font-weight: 100; }
